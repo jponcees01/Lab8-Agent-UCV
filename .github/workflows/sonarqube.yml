@@ -1,41 +1,32 @@
 name: SonarQube Analysis
 
 on:
-push:
-branches:
-- main
-pull_request:
-branches:
-- main
+  push:
+    branches:
+      - main
 
 jobs:
-sonar:
-runs-on: ubuntu-latest
+  sonar:
+    runs-on: ubuntu-latest
 
-```
-steps:
-  - name: Checkout Repository
-    uses: actions/checkout@v4
-    with:
-      fetch-depth: 0
+    steps:
+      - uses: actions/checkout@v4
 
-  - name: Setup Python
-    uses: actions/setup-python@v5
-    with:
-      python-version: '3.11'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-  - name: Install Poetry
-    run: pip install poetry
+      - name: Install Poetry
+        run: pip install poetry
 
-  - name: Install Dependencies
-    run: poetry install
+      - name: Install Dependencies
+        run: poetry install
 
-  - name: Run Tests
-    run: poetry run pytest
+      - name: Run Tests
+        run: poetry run pytest
 
-  - name: SonarQube Scan
-    uses: SonarSource/sonarqube-scan-action@v5
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-```
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
