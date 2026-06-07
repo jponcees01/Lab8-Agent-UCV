@@ -1,2 +1,6 @@
 .env
-.env
+.venv/
+.adk/
+__pycache__/
+*.pyc
+session.db
